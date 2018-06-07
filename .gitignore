@@ -45,6 +45,10 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+#for my pc
+Assignment/nbproject/private/
+Assignment/build/
+
 
 # OS
 .DS_Store
@@ -54,3 +58,4 @@ nb-configuration.xml
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+/ReverseArrayOfIntegerValues/nbproject/private/
