@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Assignment6;
+package SwingFiles;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;

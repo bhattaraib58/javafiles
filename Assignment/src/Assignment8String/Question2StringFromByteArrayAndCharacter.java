@@ -18,7 +18,7 @@ public class Question2StringFromByteArrayAndCharacter
         byte[] byteString={'B','I','P','L','A','P'};  //as char only take 8bits so it take 1 byte
         
         System.out.println("Data of byte array in String form ::");
-        String converted = new String(byteString, StandardCharsets.UTF_8);
+        String converted = new String(byteString);
         System.out.println("The string of byteString is ::"+converted);
         
         char[] str={'H','E','l','l','o','!'};
@@ -27,7 +27,7 @@ public class Question2StringFromByteArrayAndCharacter
         System.out.println(str3);
         
         
-        /*
+        
 //        String str2=Character.toString(str[1]);
         //no need below this for assignment
         //other method
@@ -52,7 +52,5 @@ public class Question2StringFromByteArrayAndCharacter
             binary = Integer.toBinaryString(byteString[k]);
             System.out.println("Binary value: "+binary);
         }
-
-*/
     }
 }
