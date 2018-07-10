@@ -5,30 +5,36 @@
  */
 package SwingFiles;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-
 /**
  *
  * @author Admin
  */
-public class LoginForm implements ActionListener 
+public class LoginForm implements ActionListener, KeyListener 
 {
     JFrame jframe;
     JTextField  usernameTextField;
     JPasswordField  passwordTextField;
     JTextField  reasultTextField;
+    JLabel wrongUsername,wrongPassword;
+    JLabel password;
+    JButton loginBtn;
+    JButton cancelBtn;
+    JButton clearButton;
     
     public LoginForm()
     {
@@ -52,31 +58,50 @@ public class LoginForm implements ActionListener
         usernameTextField.setBounds(100,20,200,25);
         jpanel.add(usernameTextField);
         
-        JLabel password=new JLabel("Password");
+        wrongUsername=new JLabel("Invalid Username");
+        wrongUsername.setBounds(70,45,200,30);
+        jpanel.add(wrongUsername);
+        wrongUsername.setVisible(false);
+        
+         
+        password=new JLabel("Password");
         password.setBounds(20,45,200,30);
         jpanel.add(password);
         passwordTextField=new JPasswordField(15);
         passwordTextField.setBounds(100,45,200,25);
         jpanel.add(passwordTextField);
         
-        JButton loginBtn=new JButton("Login");
+        
+        wrongPassword=new JLabel("Invalid Password");
+        wrongPassword.setBounds(70,95,200,30);
+        jpanel.add(wrongPassword);
+        wrongPassword.setVisible(false);
+        
+        
+        loginBtn=new JButton("Login");
         loginBtn.setFont(new Font("Arial",Font.PLAIN,12));
         loginBtn.setBounds(60, 80, 65, 30);
         jpanel.add(loginBtn);
         loginBtn.setActionCommand("Login");
         loginBtn.addActionListener(this);
+        loginBtn.addKeyListener(this);
         
-        
-        JButton cancelBtn=new JButton("Cancel");
+        cancelBtn=new JButton("Cancel");
         cancelBtn.setFont(new Font("Arial",Font.PLAIN,12));
-        cancelBtn.setBounds(200, 80, 75, 30);
+        cancelBtn.setBounds(220, 80, 75, 30);
         jpanel.add(cancelBtn);
         cancelBtn.setActionCommand("Cancel");
         cancelBtn.addActionListener(this);
+        cancelBtn.addKeyListener(this);
         
-//        loginBtn.registerKeyboardAction(loginBtn.getActionForKeyStroke(
-//                              KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
-//                              KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
+        
+        clearButton=new JButton("Clear");
+        clearButton.setBounds(135,80,70,30);
+        jpanel.add(clearButton);      
+        clearButton.setActionCommand("Clear");
+        clearButton.addActionListener(this);  
+        
+//        loginBtn.registerKeyboardAction(loginBtn.getActionForKeyStroke("Login"
 //                              JComponent.WHEN_FOCUSED);
 //        
 //        cancelBtn.registerKeyboardAction(cancelBtn.getActionForKeyStroke(
@@ -101,9 +126,39 @@ public class LoginForm implements ActionListener
             {
                 JOptionPane.showMessageDialog(null, "You Have Sucessfully Been Authenticated", "Login Confirmed", JOptionPane.INFORMATION_MESSAGE);
             }
+            else
+            {
+                    wrongUsername.setBackground(Color.red);
+                    wrongPassword.setBackground(Color.red);
+                    wrongUsername.setForeground(Color.red);
+                    wrongPassword.setForeground(Color.red);
+                    wrongUsername.setVisible(true);
+                    wrongPassword.setVisible(true);
+                    
+                    this.password.setBounds(20,70,200,30);
+                    passwordTextField.setBounds(100,70,200,25);
+                    loginBtn.setBounds(60, 120, 65, 30);
+                    cancelBtn.setBounds(220, 120, 75, 30);
+                    clearButton.setBounds(135,120,70,30);
+            }
             System.out.println("Username :: "+username);
             System.out.println("Password :: "+password);
             System.out.println("Action Performed in Login Button");
+        }
+        else if(e.getActionCommand().equals("Clear"))
+        {
+            usernameTextField.setText(null);
+            passwordTextField.setText(null);
+            
+            password.setBounds(20,45,200,30);
+            passwordTextField.setBounds(100,45,200,25);
+            loginBtn.setBounds(60, 80, 65, 30);
+            cancelBtn.setBounds(220, 80, 75, 30);
+            clearButton.setBounds(135,80,70,30);
+            
+            wrongUsername.setVisible(false);
+            wrongPassword.setVisible(false);
+            
         }
         else if(e.getActionCommand().equalsIgnoreCase("Cancel")) 
         {
@@ -119,5 +174,30 @@ public class LoginForm implements ActionListener
     public static void main(String[] args)
     {
         new LoginForm();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e)
+    {
+//        if (e.getKeyCode() == KeyEvent.VK_ENTER)
+//        {
+//            loginBtn.doClick();
+//        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e)
+    {
+        
+        if (e.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            loginBtn.doClick();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
