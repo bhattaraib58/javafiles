@@ -64,7 +64,7 @@ class Thread2 extends Thread
         start();
     }
     @Override
-    public void run()
+    synchronized public void run()
     {
         for (int i =11; i < 20; i++)
         {
@@ -85,6 +85,8 @@ public class ExtendThread
     public static void main(String[] args)
     {
         Thread1 t1=new Thread1("Thread1");
+        System.out.println(Thread.MAX_PRIORITY);
+        t1.setPriority(Thread.MAX_PRIORITY);
         Thread2 t2=new Thread2("Thread2");
         Thread3 t3=new Thread3("Thread3");
     }
