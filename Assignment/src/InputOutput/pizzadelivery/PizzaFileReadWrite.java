@@ -107,26 +107,39 @@ public class PizzaFileReadWrite
         try( ObjectInputStream ois  = new ObjectInputStream(new FileInputStream("E:\\PizzaFiles\\pizza.ser")))
         {
             List<Pizza> pizzaList = (List<Pizza>) ois.readObject();
-            int i=1;
+            int i=1,j=0;
+            String [][]pizzaRowData=new String[15][6];
             for (Pizza p: pizzaList)
             {
-                System.out.println("");
-                System.out.println("Customer No::"+i);
-                System.out.println("Name Of Customer is::" + p.getName());
-                System.out.println("Phone No Of Customer is::" + p.getPhoneno());
-                System.out.println("Type Of Pizza is::" + p.getType());
-                System.out.println("Size Of Pizza is::" + p.getSize());
-                System.out.println("Selected Toppings are::");
+                pizzaRowData[j][0]=Integer.toString(i);
+                pizzaRowData[j][1]=p.getName();
+                pizzaRowData[j][2]= Long.toString(p.getPhoneno());
+                pizzaRowData[j][3]=p.getType();
+                pizzaRowData[j][4]=p.getSize();
+                String topping="";
                 for(String s:p.getToppings())
                 {
                     if(s!=null)
                     {
-                        System.out.println(s);
+                        topping=topping+" "+s;
                     }
                 }
+                pizzaRowData[j][5]=topping;
                 i++;
-                System.out.println("");
+                j++;
             }
+            if(pizzaRowData!=null)
+            {
+                ViewPizzaRequestData viewData=new ViewPizzaRequestData(pizzaRowData);
+            }
+            
+//                System.out.println("");
+//                System.out.println("Customer No::"+i);
+//                System.out.println("Name Of Customer is::" + p.getName());
+//                System.out.println("Phone No Of Customer is::" + p.getPhoneno());
+//                System.out.println("Type Of Pizza is::" + p.getType());
+//                System.out.println("Size Of Pizza is::" + p.getSize());
+//                System.out.println("Selected Toppings are::");
         } 
         catch (FileNotFoundException ex)
         {

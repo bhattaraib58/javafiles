@@ -285,7 +285,7 @@ public class PizzaDelivery implements ActionListener
         
         //checking for phone no
         inputData=phonenoInput.getText();
-        if(!inputData.matches("\\d{1,}"))
+        if(!inputData.matches("\\d{10}"))
         {
             wrongPhoneno.setVisible(true);
             errorBIT=1;
