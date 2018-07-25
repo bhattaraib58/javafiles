@@ -8,7 +8,10 @@ package SwingFiles;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -208,7 +211,22 @@ public class BookInformation implements ActionListener
         {
             wrongGender.setVisible(false);
         }
+//        
+//        if (button.isSelected()) {
+//                return button.getText();
+////            }
+//        Object a=gender.getElements().get.getSelection().getSelectedObjects();
+//        String s=(String)a;
+//        System.out.println(a);
         
+        for (Enumeration<AbstractButton> buttons = gender.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+
+            if (button.isSelected()) 
+            {
+                 System.out.println(button.getText());
+            }
+        }
          if(programCombo.getSelectedIndex()==0)
         {
             wrongProgram.setVisible(true);
