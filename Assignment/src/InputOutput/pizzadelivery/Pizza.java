@@ -13,11 +13,11 @@ import java.io.Serializable;
  */
 public class Pizza implements Serializable
 {
-    String name;
-    long phoneno;
-    String type;
-    String size;
-    String[] toppings;
+    private String name;
+    private long phoneno;
+    private String type;
+    private String size;
+    private String[] toppings;
     
     public String getName()
     {

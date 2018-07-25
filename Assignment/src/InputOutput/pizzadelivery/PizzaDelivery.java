@@ -140,16 +140,28 @@ public class PizzaDelivery implements ActionListener
         jpanel.add(wrongToppings);
         
         JButton submitButton=new JButton("Submit");
-        submitButton.setBounds(220,330,80,30);
+        submitButton.setBounds(220,330,100,30);
         jpanel.add(submitButton);
         submitButton.setActionCommand("Submit");
         submitButton.addActionListener(this);  
         
         JButton clearButton=new JButton("Clear");
-        clearButton.setBounds(70,330,70,30);
+        clearButton.setBounds(70,330,100,30);
         jpanel.add(clearButton);      
         clearButton.setActionCommand("Clear");
         clearButton.addActionListener(this);  
+        
+        JButton appendButton=new JButton("Append Data");
+        appendButton.setBounds(70,380,110,30);
+        jpanel.add(appendButton);      
+        appendButton.setActionCommand("AppendData");
+        appendButton.addActionListener(this);  
+                
+        JButton showDataButton=new JButton("Show Data");
+        showDataButton.setBounds(220,380,100,30);
+        jpanel.add(showDataButton);
+        showDataButton.setActionCommand("ShowData");
+        showDataButton.addActionListener(this);  
     }
     
     @Override
@@ -161,28 +173,94 @@ public class PizzaDelivery implements ActionListener
         }
         else if(e.getActionCommand().equalsIgnoreCase("Submit")) 
         {
-////            if(CheckInputValue())
-//            {
-//                JTextField nameInput,phonenoInput;
-    
-//    JLabel wrongName,wrongPhoneno,wrongPizzaType,wrongPizzaSize,wrongToppings;
-//    JComboBox pizzaTypeCombo;
-//    ButtonGroup pizzaSizeGroup;
-//    JCheckBox extraCheese,salami,sausage,pepproni;
-    
-                System.out.println("Name"+nameInput.getText());
-                System.out.println("Phone"+phonenoInput.getText());
+            //CheckInputValue is a Function in PizzaDelivery.java class which checks the input values using regex and others
+            if(CheckInputValue())
+            {
+                //calls the function which sets the values to pizza class and function which returns pizza class object
+                Pizza pizza=setPizzaClassValues();
                 
-                System.out.println("Type"+pizzaTypeCombo.getSelectedIndex());
-                System.out.println("Size"+pizzaSizeGroup.getSelection().getActionCommand());
-                JOptionPane.showMessageDialog(null, "Your Info has Been Saved", "Info Saved", JOptionPane.INFORMATION_MESSAGE);
-////                ClearInfo();
-//            }
+                //creating object of PizzaFileReadWrite to write object to file Check PizzaFileReadWrite.java File
+                PizzaFileReadWrite pizzaFile=new PizzaFileReadWrite();
+                
+                //writeFile is a function/method which is boolean which returns true or false
+                //so if true file has been written
+                if(pizzaFile.writePizzaFile(pizza))
+                {
+                    JOptionPane.showMessageDialog(null, "Your Info has Been Saved", "Info Saved", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Sorry Information Not Saved", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else if(e.getActionCommand().equals("AppendData"))
+        {
+             //CheckInputValue is a Function in PizzaDelivery.java class which checks the input values using regex and others
+            if(CheckInputValue())
+            {
+                //calls the function which sets the values to pizza class and function which returns pizza class object
+                Pizza pizza=setPizzaClassValues();
+                
+                //creating object of PizzaFileReadWrite to write object to file Check PizzaFileReadWrite.java File
+                PizzaFileReadWrite pizzaFile=new PizzaFileReadWrite();
+                
+                //writeFile is a function/method which is boolean which returns true or false
+                //so if true file has been written
+                if(pizzaFile.appendPizzaFile(pizza))
+                {
+                    JOptionPane.showMessageDialog(null, "New Info has Been Saved and Appened", "Info Saved", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Sorry Information Not Saved", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else if(e.getActionCommand().equals("ShowData")) 
+        {
+            PizzaFileReadWrite pizzaFile=new PizzaFileReadWrite();
+            pizzaFile.readPizzaFile();
+        }
+        else if(e.getActionCommand().equals("Small")||e.getActionCommand().equals("Medium")||e.getActionCommand().equals("Large")) 
+        {
+                //do Nothing
         }
         else 
         {
             System.out.println("command not recognized");
         }
+    }
+    Pizza setPizzaClassValues()
+    {
+                //creating pizza class object Check Pizza Class in Pizza.java File
+                Pizza pizza=new Pizza();
+                //setting values to class variables
+                String[] toppings=new String[4];
+                pizza.setName(nameInput.getText());             
+                pizza.setPhone(Long.parseLong(phonenoInput.getText()));
+                pizza.setType((String)pizzaTypeCombo.getSelectedItem());
+                pizza.setSize(pizzaSizeGroup.getSelection().getActionCommand());
+              
+                //checking for values of Jcheckbox
+                if(extraCheese.isSelected())  
+                {  
+                      toppings[0]=extraCheese.getText();
+                } 
+                if(salami.isSelected())  
+                {  
+                    toppings[1]=salami.getText();
+                }
+                if(sausage.isSelected())  
+                {  
+                    toppings[2]=sausage.getText();
+                }
+                if(pepproni.isSelected())  
+                {  
+                    toppings[3]=pepproni.getText();
+                }
+                pizza.setToppings(toppings);
+                return pizza;
     }
     void ClearInfo()
     {
@@ -199,6 +277,72 @@ public class PizzaDelivery implements ActionListener
             wrongPizzaType.setVisible(false);
             wrongPizzaSize.setVisible(false);
             wrongToppings.setVisible(false);
+    }
+    boolean CheckInputValue()
+    {
+        int errorBIT=0;
+        String inputData;
+        
+        //checking for phone no
+        inputData=phonenoInput.getText();
+        if(!inputData.matches("\\d{1,}"))
+        {
+            wrongPhoneno.setVisible(true);
+            errorBIT=1;
+        }
+        else
+        {
+            wrongPhoneno.setVisible(false);
+        }
+        
+        //checking for name
+        inputData=nameInput.getText();
+        if(!inputData.matches("[a-z A-Z]{4,}"))
+        {
+            wrongName.setVisible(true);
+            errorBIT=1;
+        }
+        else
+        {
+            wrongName.setVisible(false);
+        }
+        
+        //for pizza size
+        if(pizzaSizeGroup.getSelection()==null)
+        {
+            wrongPizzaSize.setVisible(true);
+            errorBIT=1;
+        }
+        else
+        {
+            wrongPizzaSize.setVisible(false);
+        }
+        
+        //for pizza type check
+         if(pizzaTypeCombo.getSelectedIndex()==0)
+        {
+            wrongPizzaType.setVisible(true);
+            errorBIT=1;
+        }
+        else
+        {
+            wrongPizzaType.setVisible(false);
+        }
+        
+         //for pizza toppings check
+        if(extraCheese.isSelected()||salami.isSelected()||sausage.isSelected()||pepproni.isSelected())
+        {
+            wrongToppings.setVisible(false);
+        }
+        else
+        {
+            wrongToppings.setVisible(true);
+            errorBIT=1;
+        }
+        if(errorBIT==1)
+            return false;
+        else
+            return true;
     }
     public static void main(String[] args)
     {
