@@ -36,7 +36,7 @@ public class PizzaDelivery implements ActionListener
         jpanel.setLayout(null);
         jframe.add(jpanel);
         
-        JLabel id=new JLabel("User Name:");
+        JLabel id=new JLabel("Name:");
         id.setBounds(10,10,70,25);
         jpanel.add(id);
         
@@ -152,10 +152,16 @@ public class PizzaDelivery implements ActionListener
         clearButton.addActionListener(this);  
                         
         JButton showDataButton=new JButton("Show Data");
-        showDataButton.setBounds(130,380,130,30);
+        showDataButton.setBounds(220,380,100,30);
         jpanel.add(showDataButton);
         showDataButton.setActionCommand("ShowData");
         showDataButton.addActionListener(this);  
+                        
+        JButton logoutButton=new JButton("Log Out");
+        logoutButton.setBounds(70,380,100,30);
+        jpanel.add(logoutButton);
+        logoutButton.setActionCommand("logout");
+        logoutButton.addActionListener(this);  
     }
     
     @Override
@@ -191,8 +197,14 @@ public class PizzaDelivery implements ActionListener
         }
         else if(e.getActionCommand().equals("ShowData")) 
         {
+            jframe.dispose();
             PizzaDeliveryDatabase pdd=new PizzaDeliveryDatabase();
             pdd.viewPizzaDatabase();
+        }
+        else if(e.getActionCommand().equals("logout")) 
+        {
+            jframe.dispose();
+            new LoginForm();
         }
         else if(e.getActionCommand().equals("Small")||e.getActionCommand().equals("Medium")||e.getActionCommand().equals("Large")) 
         {
@@ -214,39 +226,24 @@ public class PizzaDelivery implements ActionListener
                 pizza.setType((String)pizzaTypeCombo.getSelectedItem());
                 pizza.setSize(pizzaSizeGroup.getSelection().getActionCommand());
               
-                //checking for values of Jcheckbox and setting values
+                ///checking for values of Jcheckbox
                 if(extraCheese.isSelected())  
                 {  
-                    pizza.setToppingExtracheese(Boolean.TRUE);
+                      toppings[0]=extraCheese.getText();
                 } 
-                else
-                {
-                    pizza.setToppingExtracheese(Boolean.FALSE);
-                }
                 if(salami.isSelected())  
                 {  
-                    pizza.setToppingSalami(Boolean.TRUE);
-                }
-                else
-                {
-                    pizza.setToppingSalami(Boolean.FALSE);
+                    toppings[1]=salami.getText();
                 }
                 if(sausage.isSelected())  
                 {  
-                    pizza.setToppingSausage(Boolean.TRUE);
-                }
-                else
-                {
-                    pizza.setToppingSausage(Boolean.FALSE);
+                    toppings[2]=sausage.getText();
                 }
                 if(pepproni.isSelected())  
                 {  
-                    pizza.setToppingPepproni(Boolean.TRUE);
+                    toppings[3]=pepproni.getText();
                 }
-                else
-                {
-                    pizza.setToppingPepproni(Boolean.FALSE);
-                }
+                pizza.setToppings(toppings);
                 return pizza;
     }
     void ClearInfo()
@@ -330,9 +327,5 @@ public class PizzaDelivery implements ActionListener
             return false;
         else
             return true;
-    }
-    public static void main(String[] args)
-    {
-        new PizzaDelivery();
     }
 }

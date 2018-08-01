@@ -11,16 +11,14 @@ import java.io.Serializable;
  *
  * @author Admin
  */
+
 public class Pizza implements Serializable
 {
     private String name;
     private long phoneno;
     private String type;
     private String size;
-    private boolean topping_Extracheese=false;
-    private boolean topping_salami=false;
-    private boolean topping_sausage=false;
-    private boolean topping_pepproni=false;
+    private String[] toppings;
     
     public String getName()
     {
@@ -39,24 +37,9 @@ public class Pizza implements Serializable
         return this.size;
     }
     
-    public boolean getToppingExtracheese()
+    public String[] getToppings()
     {
-        return this.topping_Extracheese;
-    }
-    
-    public boolean getToppingSalami()
-    {
-        return this.topping_salami;
-    }
-    
-    public boolean getToppingSausage()
-    {
-        return this.topping_sausage;
-    }
-    
-    public boolean getToppingPepproni()
-    {
-        return this.topping_pepproni;
+        return this.toppings;
     }
     
     public void setName(String name)
@@ -75,24 +58,8 @@ public class Pizza implements Serializable
     {
         this.size=size;
     }
-    
-    public void setToppingExtracheese(Boolean ec)
+    public void setToppings(String[] toppings)
     {
-        this.topping_Extracheese=ec;
-    }
-    
-    
-    public void setToppingSalami(Boolean sl)
-    {
-        this.topping_salami=sl;
-    }
-    
-    public void setToppingSausage(Boolean su)
-    {
-        this.topping_sausage=su;
-    }
-    public void setToppingPepproni(Boolean pp)
-    {
-        this.topping_pepproni=pp;
+        this.toppings=toppings;
     }
 }

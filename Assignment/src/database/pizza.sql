@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2018 at 07:03 PM
+-- Generation Time: Aug 01, 2018 at 07:12 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -34,19 +34,40 @@ CREATE TABLE `pizza_orders` (
   `Phoneno` bigint(20) DEFAULT NULL,
   `pizza_type` enum('Thick_Crust','Thin_Crust','Pan') NOT NULL,
   `pizza_size` enum('Small','Medium','Large') NOT NULL,
-  `topping_Extracheese` bit(1) DEFAULT NULL,
-  `topping_salami` bit(1) DEFAULT NULL,
-  `topping_sausage` bit(1) DEFAULT NULL,
-  `topping_pepproni` bit(1) DEFAULT NULL
+  `toppings` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `pizza_orders`
 --
 
-INSERT INTO `pizza_orders` (`Order_id`, `UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `topping_Extracheese`, `topping_salami`, `topping_sausage`, `topping_pepproni`) VALUES
-(6, 'Biplap', 9843509176, 'Thin_Crust', 'Large', b'1', b'0', b'1', b'0'),
-(10, 'dasd', 1234567890, 'Pan', 'Medium', b'0', b'1', b'0', b'1');
+INSERT INTO `pizza_orders` (`Order_id`, `UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `toppings`) VALUES
+(6, 'Biplap', 9843509176, 'Thin_Crust', 'Large', ''),
+(10, 'dasd', 1234567890, 'Pan', 'Medium', ''),
+(11, 'Biplap BHattarai', 9843509176, 'Thin_Crust', 'Medium', 'Extra Cheese');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userdetails`
+--
+
+CREATE TABLE `userdetails` (
+  `userid` bigint(20) NOT NULL,
+  `username` varchar(60) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `firstName` varchar(60) NOT NULL,
+  `lastName` varchar(60) NOT NULL,
+  `Gender` enum('Male','Female','Others') NOT NULL,
+  `phoneNo` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `userdetails`
+--
+
+INSERT INTO `userdetails` (`userid`, `username`, `password`, `firstName`, `lastName`, `Gender`, `phoneNo`) VALUES
+(3, 'bhattaraib58', 'E10ADC3949BA59ABBE56E057F20F883E', 'Biplap', 'Bhattarai', 'Male', 9843509176);
 
 --
 -- Indexes for dumped tables
@@ -60,6 +81,13 @@ ALTER TABLE `pizza_orders`
   ADD UNIQUE KEY `UserName` (`UserName`);
 
 --
+-- Indexes for table `userdetails`
+--
+ALTER TABLE `userdetails`
+  ADD PRIMARY KEY (`userid`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -68,6 +96,12 @@ ALTER TABLE `pizza_orders`
 --
 ALTER TABLE `pizza_orders`
   MODIFY `Order_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `userdetails`
+--
+ALTER TABLE `userdetails`
+  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

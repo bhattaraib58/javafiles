@@ -16,6 +16,7 @@ import javax.swing.table.TableRowSorter;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -50,10 +51,9 @@ public class ViewPizzaRequestData implements ActionListener
     void initComponents(String [][]pizzaRowData)
     {
         //creating jtable data and adding to jtable
-        String[] columnData={"ID","User Name","Phone No","Pizza Type","Pizza Size","Topping_Extracheese","Topping_salami","Topping_sausage","Topping_pepproni"};
+        String[] columnData={"ID","User Name","Phone No","Pizza Type","Pizza Size","Topping"};
 
-        jtable=new JTable(pizzaRowData,columnData);
-        
+        jtable=new JTable(pizzaRowData,columnData); 
         //creating upper jpanel for adding jpanel
         JPanel jpane=new JPanel(new BorderLayout());
         jpane.add(new JScrollPane(jtable));
@@ -101,7 +101,7 @@ public class ViewPizzaRequestData implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if(e.getActionCommand().equals("Print"))
+        if(e.getActionCommand().equals("asdsadasd"))
         {
                 try 
                 {
@@ -115,6 +115,22 @@ public class ViewPizzaRequestData implements ActionListener
                 {
                      System.err.format("Cannot print %s%n", ex.getMessage()); 
                  } 
+        }
+        else
+        {                    
+        
+        // get the model from the jtable
+       DefaultTableModel model = (DefaultTableModel)jtable.getModel();
+       
+        // get the selected row index
+       int selectedRowIndex = jtable.getSelectedRow();
+       PizzaDelivery pd=new PizzaDelivery();
+       
+        // set the selected row data into jtextfields
+       pd.nameInput.setText(model.getValueAt(selectedRowIndex, 0).toString());
+       pd.phonenoInput.setText(model.getValueAt(selectedRowIndex, 1).toString());
+       pd.pizzaTypeCombo.setSelectedItem(model.getValueAt(selectedRowIndex, 2).toString());
+       pd.extraCheese.setSelected(true); 
         }
     }
 }

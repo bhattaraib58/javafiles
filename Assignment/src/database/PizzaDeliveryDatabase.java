@@ -51,8 +51,7 @@ public class PizzaDeliveryDatabase
     {
         if(openDatabaseConnection())
         {
-            String query="INSERT INTO `pizza_orders`(`UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `topping_Extracheese`, "
-                    + "`topping_salami`, `topping_sausage`, `topping_pepproni`) VALUES (?,?,?,?,?,?,?,?);";
+            String query="INSERT INTO `pizza_orders`(`UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `toppings`) VALUES (?,?,?,?,?);";
             try
             {
                 smt=conn.prepareStatement(query);
@@ -60,10 +59,16 @@ public class PizzaDeliveryDatabase
                 smt.setLong(2, pizza.getPhoneno());
                 smt.setString(3, pizza.getType());
                 smt.setString(4, pizza.getSize());
-                smt.setBoolean(5,pizza.getToppingExtracheese());
-                smt.setBoolean(6, pizza.getToppingSalami());
-                smt.setBoolean(7, pizza.getToppingSausage());
-                smt.setBoolean(8, pizza.getToppingPepproni());
+                String t = "";
+                for(String s:pizza.getToppings())
+                {
+                    if(s!=null)
+                    {
+                        t=t.concat(s);
+                        t.concat(", ");
+                    }
+                }
+                smt.setString(5,t);
                 int result=smt.executeUpdate();
                 if(result==1)
                 {
@@ -121,9 +126,8 @@ public class PizzaDeliveryDatabase
         if(openDatabaseConnection())
         {
             int i=1,j=0;
-            String [][]pizzaRowData=new String[15][9];
-            String query="SELECT `UserName`, `Phoneno`, `pizza_type`, `pizza_size`, "
-                    + "`topping_Extracheese`, `topping_salami`, `topping_sausage`, `topping_pepproni` FROM `pizza_orders`; ";
+            String [][]pizzaRowData=new String[15][6];
+            String query="SELECT `UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `toppings` FROM `pizza_orders`; ";
             try
             {
                 Statement st=conn.createStatement();
@@ -136,10 +140,7 @@ public class PizzaDeliveryDatabase
                     pizzaRowData[j][2]=rs.getString(2);
                     pizzaRowData[j][3]=rs.getString(3);
                     pizzaRowData[j][4]=rs.getString(4);
-                    pizzaRowData[j][5]=Boolean.toString(rs.getBoolean(5));
-                    pizzaRowData[j][6]=Boolean.toString(rs.getBoolean(6));
-                    pizzaRowData[j][7]=Boolean.toString(rs.getBoolean(7));
-                    pizzaRowData[j][8]=Boolean.toString(rs.getBoolean(8));
+                    pizzaRowData[j][5]=rs.getString(5);
                     j++;
                     i++;
                 }while(rs.next());
@@ -147,6 +148,7 @@ public class PizzaDeliveryDatabase
             catch(Exception ex)
             {
                 System.out.println(ex);
+                return false;
             }
             if(pizzaRowData!=null)
             {
@@ -154,5 +156,106 @@ public class PizzaDeliveryDatabase
             }
         } 
         return true;
+    }
+    boolean registerUser(UserDetails ud)
+    {
+        if(openDatabaseConnection())
+        {
+            String query="INSERT INTO `userdetails`(`username`, `password`, `firstName`, `lastName`, `Gender`, `phoneNo`) VALUES (?,?,?,?,?,?);";
+            try
+            {
+                smt=conn.prepareStatement(query);
+                smt.setString(1, ud.getUsername());
+                smt.setString(2, ud.getPassword());
+                smt.setString(3, ud.firstName);
+                smt.setString(4, ud.lastName);
+                smt.setString(5,ud.Gender);
+                smt.setLong(6, ud.phoneNo);
+                int result=smt.executeUpdate();
+                if(result==1)
+                {
+                    System.out.println("User Registered Sucessfully");
+                }
+                else
+                {
+                    System.out.println("Error Occured While Adding Data");
+                }
+            } 
+            catch(MySQLIntegrityConstraintViolationException ex)
+            {
+                String s=ex.toString();
+                if(s.contains("Duplicate entry"))
+                {
+                      JOptionPane.showMessageDialog(null, "The username has already been Taken !! Enter Other username !!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                return false;
+            }
+            catch (SQLException ex)
+            {
+                System.out.println(ex);
+                return false;
+            }
+            finally
+            {
+                    try
+                    { 
+                        if(conn!=null)
+                       {
+                            conn.close();  
+                        }
+                        if(smt!=null)
+                        { 
+                            smt.close();
+                        }
+                    } 
+                    catch (SQLException ex)
+                    {
+                        
+                     }
+            }
+        }
+        else
+        {
+            System.out.println("Error Occured While creating Connection !!");
+        }
+        return true;
+    }
+    
+    boolean checkUserRegistration(String username,String password)
+    {
+        String fullName="";
+        if(openDatabaseConnection())
+        {
+            String query="SELECT `firstName`, `lastName` FROM `userdetails` WHERE username=? && password=?;";// &password='?'
+            try
+            {
+                smt=conn.prepareStatement(query);
+                smt.setString(1, username);
+                UserDetails ud=new UserDetails();
+                System.out.println("username::"+username);
+                System.out.println("password::"+ud.hashString(password));
+                smt.setString(2, ud.hashString(password));
+                ResultSet rs=smt.executeQuery();
+                rs.first();
+                do
+                {
+                    fullName=fullName.concat(rs.getString(1));
+                    fullName=fullName.concat(" ");
+                    fullName=fullName.concat(rs.getString(2));
+                    System.out.println(fullName);
+                    return true;
+                }while(rs.next());
+            }
+            catch(Exception ex)
+            {
+                System.out.println(ex);
+                return false;
+            }
+//            if(fullName!="")
+//            {
+//                return true;
+//            }
+        } 
+        return false;
     }
 }
