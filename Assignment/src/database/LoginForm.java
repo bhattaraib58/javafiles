@@ -133,15 +133,6 @@ public class LoginForm implements ActionListener, KeyListener
                 {
                     JOptionPane.showMessageDialog(null, "The Username or Password is Incorrect !!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                System.out.println("Username :: "+username);
-                System.out.println("Password :: "+password);
-                UserDetails ud=new UserDetails();
-                String s1=ud.hashString(password);
-                String s2=ud.hashString(password);
-                if(s1.equals(s2))
-                {
-                    System.out.println("Milyoo");
-                }
             }
         }
         else if(e.getActionCommand().equals("Clear"))

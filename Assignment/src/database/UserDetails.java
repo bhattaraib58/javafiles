@@ -50,10 +50,7 @@ public class UserDetails
         {
             MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] hashedBytes = digest.digest(message.getBytes("UTF-8"));
-
-//            return convertByteArrayToHexString(hashedBytes);
             String myHash = DatatypeConverter.printHexBinary(hashedBytes).toUpperCase();
-            System.out.println(myHash);
             return myHash;
         } 
         catch (NoSuchAlgorithmException | UnsupportedEncodingException ex)

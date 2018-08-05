@@ -13,26 +13,29 @@ import java.awt.event.ActionListener;
  *
  * @author bhattaraib58
  */
-public class PizzaDelivery implements ActionListener
+public class PizzaDeliveryEdit implements ActionListener
 {
-    JFrame jframe=new JFrame("Pizza Delivery");
+    JFrame jframe=new JFrame("Edit Order Delivery");
     JTextField nameInput,phonenoInput;
-    
+    JTextField orderid;
     JRadioButton small,medium,large;
     JLabel wrongName,wrongPhoneno,wrongPizzaType,wrongPizzaSize,wrongToppings;
     JComboBox pizzaTypeCombo;
     ButtonGroup pizzaSizeGroup;
     JCheckBox extraCheese,salami,sausage,pepproni;
-    PizzaDelivery()
+    PizzaDeliveryEdit()
     {
         jframe.setSize(400,500);
         initComponents();
         jframe.setLocationRelativeTo(null);
-        jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
         jframe.setVisible(true);
     }
     void initComponents()
     {
+        orderid=new JTextField(100);
+        orderid.setVisible(false);
+        
+        
         JPanel jpanel=new JPanel();
         jpanel.setLayout(null);
         jframe.add(jpanel);
@@ -141,38 +144,22 @@ public class PizzaDelivery implements ActionListener
         jpanel.add(wrongToppings);
         
         JButton submitButton=new JButton("Submit");
-        submitButton.setBounds(220,330,100,30);
+        submitButton.setBounds(220,360,100,30);
         jpanel.add(submitButton);
         submitButton.setActionCommand("Submit");
         submitButton.addActionListener(this);  
         
-        JButton clearButton=new JButton("Clear");
-        clearButton.setBounds(70,330,100,30);
+        JButton clearButton=new JButton("Cancel");
+        clearButton.setBounds(70,360,100,30);
         jpanel.add(clearButton);      
-        clearButton.setActionCommand("Clear");
+        clearButton.setActionCommand("Cancel");
         clearButton.addActionListener(this);  
-                        
-        JButton showDataButton=new JButton("Show Data");
-        showDataButton.setBounds(220,380,100,30);
-        jpanel.add(showDataButton);
-        showDataButton.setActionCommand("ShowData");
-        showDataButton.addActionListener(this);  
-                        
-        JButton logoutButton=new JButton("Log Out");
-        logoutButton.setBounds(70,380,100,30);
-        jpanel.add(logoutButton);
-        logoutButton.setActionCommand("logout");
-        logoutButton.addActionListener(this);  
     }
     
     @Override
     public void actionPerformed(ActionEvent e)
-    {        
-        if(e.getActionCommand().equals("Clear")) 
-        {
-            ClearInfo();
-        }
-        else if(e.getActionCommand().equals("Submit"))
+    {      
+         if(e.getActionCommand().equals("Submit"))
         {
              //CheckInputValue is a Function in PizzaDelivery.java class which checks the input values using regex and others
             if(CheckInputValue())
@@ -185,7 +172,7 @@ public class PizzaDelivery implements ActionListener
                 
                 //addPizzaToDatabase is a function/method which is boolean which returns true or false
                 //so if true file has been written
-                if( pdd.addPizzaToDatabase(pizza))
+                if( pdd.updatePizzaOrder(pizza))
                 {
                     JOptionPane.showMessageDialog(null, "New Info has Been Saved To Database", "Info Saved", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -193,20 +180,13 @@ public class PizzaDelivery implements ActionListener
                 {
                     JOptionPane.showMessageDialog(null, "Sorry Information Not Saved", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                ClearInfo();
             }
         }
-        else if(e.getActionCommand().equals("ShowData")) 
-        {
-//            jframe.dispose();
-            PizzaDeliveryDatabase pdd=new PizzaDeliveryDatabase();
-            pdd.viewPizzaDatabase();
-        }
-        else if(e.getActionCommand().equals("logout")) 
-        {
-            jframe.dispose();
-            new LoginForm();
-        }
+         
+       else if(e.getActionCommand().equals("Cancel"))
+       {
+           jframe.dispose();
+       }
         else if(e.getActionCommand().equals("Small")||e.getActionCommand().equals("Medium")||e.getActionCommand().equals("Large")) 
         {
                 //do Nothing
@@ -221,6 +201,7 @@ public class PizzaDelivery implements ActionListener
                 //creating pizza class object Check Pizza Class in Pizza.java File
                 Pizza pizza=new Pizza();
                 //setting values to class variables
+                pizza.setOrderID(orderid.getText());
                 String[] toppings=new String[4];
                 pizza.setName(nameInput.getText());             
                 pizza.setPhone(Long.parseLong(phonenoInput.getText()));
@@ -246,22 +227,6 @@ public class PizzaDelivery implements ActionListener
                 }
                 pizza.setToppings(toppings);
                 return pizza;
-    }
-    void ClearInfo()
-    {
-            nameInput.setText(null);
-            phonenoInput.setText(null);
-            pizzaSizeGroup.clearSelection();
-            pizzaTypeCombo.setSelectedIndex(0);
-            extraCheese.setSelected(false);
-            salami.setSelected(false);
-            sausage.setSelected(false);
-            pepproni.setSelected(false);
-            wrongName.setVisible(false);
-            wrongPhoneno.setVisible(false);
-            wrongPizzaType.setVisible(false);
-            wrongPizzaSize.setVisible(false);
-            wrongToppings.setVisible(false);
     }
     boolean CheckInputValue()
     {

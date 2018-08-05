@@ -32,7 +32,7 @@ public class PizzaDeliveryDatabase
             }
             if(conn!=null)
             {
-                System.out.println("Connection Created !!!");
+//                System.out.println("Connection Created !!!");
             }
         } 
         catch (ClassNotFoundException ex)
@@ -65,7 +65,7 @@ public class PizzaDeliveryDatabase
                     if(s!=null)
                     {
                         t=t.concat(s);
-                        t.concat(", ");
+                        t=t.concat(", ");
                     }
                 }
                 smt.setString(5,t);
@@ -121,13 +121,80 @@ public class PizzaDeliveryDatabase
         return true;
     }
     
+    boolean updatePizzaOrder(Pizza pizza)
+    {
+        if(openDatabaseConnection())
+        {
+            String query="UPDATE `pizza_orders` SET `UserName`=?,`Phoneno`=?,`pizza_type`=?,`pizza_size`=?,`toppings`=? WHERE `Order_id`=?;";
+            
+            try
+            {
+                smt=conn.prepareStatement(query);
+                smt.setString(1, pizza.getName());
+                smt.setLong(2, pizza.getPhoneno());
+                smt.setString(3, pizza.getType());
+                smt.setString(4, pizza.getSize());
+                String t = "";
+                for(String s:pizza.getToppings())
+                {
+                    if(s!=null)
+                    {
+                        t=t.concat(s);
+                        t=t.concat(", ");
+                    }
+                }
+                smt.setString(5,t);
+                smt.setString(6,pizza.getOrderID());
+                int result=smt.executeUpdate();
+                if(result==1)
+                {
+                    System.out.println("Data Updated Sucessfully");
+                }
+                else
+                {
+                    System.out.println("Error Occured While Adding Data");
+                }
+            } 
+            catch (SQLException ex)
+            {
+                System.out.println(ex);
+                return false;
+            }
+            finally
+            {
+                    try
+                    { 
+                        if(conn!=null)
+                       {
+                            conn.close();  
+//                            System.out.println("conn::"+conn);
+                        }
+                        if(smt!=null)
+                        { 
+                            smt.close();
+//                            System.out.println("SMT::"+smt);
+                        }
+                    } 
+                    catch (SQLException ex)
+                    {
+                        
+                     }
+            }
+        }
+        else
+        {
+            System.out.println("Error Occured While creating Connection !!");
+        }
+        return true;
+    }
+    
     boolean viewPizzaDatabase()
     {
         if(openDatabaseConnection())
         {
-            int i=1,j=0;
+            int j=0;
             String [][]pizzaRowData=new String[15][6];
-            String query="SELECT `UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `toppings` FROM `pizza_orders`; ";
+            String query="SELECT `Order_id`,`UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `toppings` FROM `pizza_orders`; ";
             try
             {
                 Statement st=conn.createStatement();
@@ -135,14 +202,13 @@ public class PizzaDeliveryDatabase
                 rs.first();
                 do
                 {
-                    pizzaRowData[j][0]=Integer.toString(i);
-                    pizzaRowData[j][1]=rs.getString(1);
-                    pizzaRowData[j][2]=rs.getString(2);
-                    pizzaRowData[j][3]=rs.getString(3);
-                    pizzaRowData[j][4]=rs.getString(4);
-                    pizzaRowData[j][5]=rs.getString(5);
+                    pizzaRowData[j][0]=rs.getString(1);
+                    pizzaRowData[j][1]=rs.getString(2);
+                    pizzaRowData[j][2]=rs.getString(3);
+                    pizzaRowData[j][3]=rs.getString(4);
+                    pizzaRowData[j][4]=rs.getString(5);
+                    pizzaRowData[j][5]=rs.getString(6);
                     j++;
-                    i++;
                 }while(rs.next());
             }
             catch(Exception ex)
@@ -232,8 +298,6 @@ public class PizzaDeliveryDatabase
                 smt=conn.prepareStatement(query);
                 smt.setString(1, username);
                 UserDetails ud=new UserDetails();
-                System.out.println("username::"+username);
-                System.out.println("password::"+ud.hashString(password));
                 smt.setString(2, ud.hashString(password));
                 ResultSet rs=smt.executeQuery();
                 rs.first();

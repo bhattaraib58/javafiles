@@ -14,11 +14,17 @@ import java.io.Serializable;
 
 public class Pizza implements Serializable
 {
+    private String orderID;
     private String name;
     private long phoneno;
     private String type;
     private String size;
     private String[] toppings;
+    
+    public String getOrderID()
+    {
+        return this.orderID;
+    }
     
     public String getName()
     {
@@ -45,6 +51,11 @@ public class Pizza implements Serializable
     public void setName(String name)
     {
         this.name=name;
+    }
+    
+    public void setOrderID(String orderID)
+    {
+        this.orderID=orderID;
     }
     public void setPhone(long phoneno )
     {
