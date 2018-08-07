@@ -13,6 +13,8 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+
+import java.io.*;
 /**
  *
  * @author bhattaraib58
@@ -35,7 +37,28 @@ public class ServerWaitingForConnection
             socket=serverSocket.accept();
             if(socket!=null)
             {
-                System.exit(0);
+                
+                        System.out.println("Connected");
+                        jframe.dispose();
+                        new ChatSystemUser1(socket);
+////                System.exit(0);
+//                
+//            ObjectInputStream ois=null;
+//            ObjectOutputStream oos=null;
+//            ois =new ObjectInputStream(socket.getInputStream());
+//            oos =new ObjectOutputStream(socket.getOutputStream());
+//                try
+//                {
+//                    oos.writeObject("Oe Client");
+//                    String serverText=(String) ois.readObject();
+//                    System.out.println("Message to server::"+serverText);
+//
+//                } 
+//                catch (ClassNotFoundException ex)
+//                {
+//                    System.out.println(ex);
+//                }
+
             }
         } 
         catch (IOException ex)

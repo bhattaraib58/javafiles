@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serverSocket.chatsystem.user2;
+package serverSocket.chatsystem.user1;
 
 /**
  *
@@ -50,7 +50,7 @@ class SocketConnectionSendMessage extends Thread
         try
         {
             oos.writeObject(messageSent);
-            AddMessageTextBox.textToDisplay("Client::\n"+messageSent);
+            AddMessageTextBox.textToDisplay("Server::\n"+messageSent);
             return true;
         } 
         catch (IOException ex)
@@ -79,7 +79,7 @@ class SocketConnectionReceiveMessage extends Thread
             while(true)
             {
                      messageReceived=(String) ois.readObject();
-                     AddMessageTextBox.textToDisplay("Server::\n"+messageReceived);
+                     AddMessageTextBox.textToDisplay("Client::\n"+messageReceived);
             }
         } 
         catch (IOException ex)
@@ -99,22 +99,22 @@ class AddMessageTextBox
     
     public static void textToDisplay(String message)
     {
-            ChatSystemUser2.textarea[textAreaNumber]=new JTextArea();
-            ChatSystemUser2.textarea[textAreaNumber].setBounds(10, yAxis, 375, 25);
-            ChatSystemUser2.textarea[textAreaNumber].setText(message);
-            ChatSystemUser2.textarea[textAreaNumber].setWrapStyleWord(true);
-            ChatSystemUser2.textarea[textAreaNumber].setEditable(false);
-            ChatSystemUser2.textarea[textAreaNumber].setLineWrap(true);
-            ChatSystemUser2.japanelMessageContent.add(ChatSystemUser2.textarea[textAreaNumber]);
+            ChatSystemUser1.textarea[textAreaNumber]=new JTextArea();
+            ChatSystemUser1.textarea[textAreaNumber].setBounds(10, yAxis, 375, 25);
+            ChatSystemUser1.textarea[textAreaNumber].setText(message);
+            ChatSystemUser1.textarea[textAreaNumber].setWrapStyleWord(true);
+            ChatSystemUser1.textarea[textAreaNumber].setEditable(false);
+            ChatSystemUser1.textarea[textAreaNumber].setLineWrap(true);
+            ChatSystemUser1.japanelMessageContent.add(ChatSystemUser1.textarea[textAreaNumber]);
 
             //refreshes the jframe
-            ChatSystemUser2.jframe.revalidate();
+            ChatSystemUser1.jframe.revalidate();
             yAxis=yAxis+30;
             textAreaNumber++;
     }
 }
 
-public class ChatSystemUser2 implements ActionListener, KeyListener 
+public class ChatSystemUser1 implements ActionListener, KeyListener 
 {
     public static JFrame jframe;
     public static JTextArea[] textarea=new JTextArea[100];
@@ -124,10 +124,9 @@ public class ChatSystemUser2 implements ActionListener, KeyListener
     SocketConnectionSendMessage sendMessage;
     JTextField userInput;
     JButton sendReplyButton;
-    
-    ChatSystemUser2(Socket socket)
+    ChatSystemUser1(Socket socket)
     {
-        jframe=new JFrame("Client Messenger");
+        jframe=new JFrame("Server Messenger");
         jframe.setSize(450, 600);
         initComponents();
         jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);

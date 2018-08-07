@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java.io.*;
 /**
  *
  * @author bhattaraib58
@@ -118,7 +119,8 @@ public class ClientConnectingServer implements ActionListener
                 if(socket!=null)
                 {
                         System.out.println("Connected");
-                        System.exit(0);
+                        jframe.dispose();
+                        new ChatSystemUser2(socket);
                 }
             }
         }
