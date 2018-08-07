@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2018 at 07:12 PM
+-- Generation Time: Aug 07, 2018 at 09:22 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -43,8 +43,9 @@ CREATE TABLE `pizza_orders` (
 
 INSERT INTO `pizza_orders` (`Order_id`, `UserName`, `Phoneno`, `pizza_type`, `pizza_size`, `toppings`) VALUES
 (6, 'Biplap', 9843509176, 'Thin_Crust', 'Large', ''),
-(10, 'dasd', 1234567890, 'Pan', 'Medium', ''),
-(11, 'Biplap BHattarai', 9843509176, 'Thin_Crust', 'Medium', 'Extra Cheese');
+(11, 'adasdasdsad', 9841234578, 'Thin_Crust', 'Medium', 'Extra Cheese, '),
+(13, 'Sonu', 9841123456, 'Pan', 'Medium', 'Extra Cheese, Salami, Sausage, Pepproni, '),
+(15, 'Trilok Kafle', 9841234578, 'Thin_Crust', 'Small', 'Extra Cheese, ');
 
 -- --------------------------------------------------------
 
@@ -67,7 +68,8 @@ CREATE TABLE `userdetails` (
 --
 
 INSERT INTO `userdetails` (`userid`, `username`, `password`, `firstName`, `lastName`, `Gender`, `phoneNo`) VALUES
-(3, 'bhattaraib58', 'E10ADC3949BA59ABBE56E057F20F883E', 'Biplap', 'Bhattarai', 'Male', 9843509176);
+(3, 'bhattaraib58', 'E10ADC3949BA59ABBE56E057F20F883E', 'Biplap', 'Bhattarai', 'Male', 9843509176),
+(4, 'tpktrilok', 'E10ADC3949BA59ABBE56E057F20F883E', 'Trilok', 'Kafle', 'Male', 9841234578);
 
 --
 -- Indexes for dumped tables
@@ -77,8 +79,7 @@ INSERT INTO `userdetails` (`userid`, `username`, `password`, `firstName`, `lastN
 -- Indexes for table `pizza_orders`
 --
 ALTER TABLE `pizza_orders`
-  ADD PRIMARY KEY (`Order_id`),
-  ADD UNIQUE KEY `UserName` (`UserName`);
+  ADD PRIMARY KEY (`Order_id`);
 
 --
 -- Indexes for table `userdetails`
@@ -95,13 +96,13 @@ ALTER TABLE `userdetails`
 -- AUTO_INCREMENT for table `pizza_orders`
 --
 ALTER TABLE `pizza_orders`
-  MODIFY `Order_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Order_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `userdetails`
 --
 ALTER TABLE `userdetails`
-  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
