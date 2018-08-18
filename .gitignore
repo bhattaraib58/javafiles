@@ -19,6 +19,7 @@ tomcat
 *.war
 *.ear
 *.sar
+*.class
 
 # Maven 
 target/
@@ -31,6 +32,8 @@ target/
 
 # eclipse project file
 .settings/
+.classpath
+.project
 
 # NetBeans specific
 nbproject/private/
