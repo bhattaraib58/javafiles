@@ -1,0 +1,3 @@
+cd src
+start rmiregistry
+java RMINumberCalculation.RMIServer.RMIServerOperation

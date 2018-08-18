@@ -1,0 +1,3 @@
+javac src/RMINumberCalculation/RMIInterface/RMIInterface.java src/RMINumberCalculation/RMIClient/RMIClientOperation.java src/RMINumberCalculation/RMIServer/RMIServerOperation.java
+
+PAUSE
