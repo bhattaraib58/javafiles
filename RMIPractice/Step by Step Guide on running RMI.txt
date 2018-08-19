@@ -1,0 +1,14 @@
+Steps for running:
+(first read README for RMI Error.txt file)
+
+(i have also kept .bat files inside AutoRun folder which will autorun and 
+perform cmd command as below just move it from that folder to outside of src folder and run, you can also left click it to view cmd codes)
+
+1. start cmd
+2. navigate (or goto your java code location)
+3. compile your java files
+4. start rmiregistry from src folder
+5. run server class file (using java packagename/classFileName)
+	You will get notified if server is running (try putting system.out.println("Sever Running") for getting info that server is running)
+6. start new cmd (dont close old one in it server is running )
+7. Do your operation
